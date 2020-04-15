@@ -1,15 +1,13 @@
-const express = require("express");
-
 const User = require("../models/user");
 
-const router = express.Router();
+module.exports = {
+    async create(req, res) {
+        try {
+            const user = await User.create(req.body);
 
-router.post("/register", async (req, res) => {
-    try {
-        const user = await User.create(req.body);
-
-        return res.send({ user });
-    } catch (err) {
-        res.status(400).send({ error: "Registration Failed" });
-    }
-});
+            return res.send({ user });
+        } catch (err) {
+            res.status(400).send({ error: "Registration Failed" });
+        }
+    },
+};
