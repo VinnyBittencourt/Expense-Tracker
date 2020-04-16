@@ -12,6 +12,7 @@ const routes = express.Router();
 routes.post("/auth/register", authController.create);
 routes.post("/auth/authenticate", authController.login);
 routes.post("/auth/forgot_password", authController.forgotPassword);
+routes.post("/auth/reset_password", authController.resetPassword);
 
 routes.get("/projects", authMiddleware, projectController.index);
 
