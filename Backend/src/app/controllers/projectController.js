@@ -3,7 +3,13 @@ const Task = require("../models/task");
 
 module.exports = {
     async index(req, res) {
-        res.send({ ok: "Hello World", user: req.userId });
+        try {
+            const projects = await Project.find();
+
+            return res.send({ projects });
+        } catch (err) {
+            return res.status(400).send({ error: "Error loading projects" });
+        }
     },
 
     async show(req, res) {
@@ -11,7 +17,15 @@ module.exports = {
     },
 
     async create(req, res) {
-        res.send({ ok: "Hello World", user: req.userId });
+        try {
+            const project = await Project.create({
+                ...req.body,
+                user: req.userId,
+            });
+            return res.send({ project });
+        } catch (err) {
+            return res.status(400).send({ error: "Could not create project" });
+        }
     },
 
     async put(req, res) {
