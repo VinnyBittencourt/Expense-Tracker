@@ -4,7 +4,7 @@ const Task = require("../models/task");
 module.exports = {
     async index(req, res) {
         try {
-            const projects = await Project.find().populate("user"); // Populate pegar todas informações daquele User atravéz do UserID que foi passado na criação
+            const projects = await Project.find().populate(["user", "tasks"]); // Populate pegar todas informações daquele User atravéz do UserID que foi passado na criação
 
             return res.send({ projects });
         } catch (err) {
@@ -33,13 +33,18 @@ module.exports = {
                 user: req.userId,
             });
 
-            tasks.map((task) => {
-                const projectTask = new Task({ ...task, project: Project._id });
+            await Promise.all(
+                tasks.map(async (task) => {
+                    const projectTask = new Task({
+                        ...task,
+                        project: Project._id,
+                    });
 
-                projectTask.save().then((task) => {
-                    project.tasks.push(task);
-                });
-            });
+                    await projectTask.save();
+
+                    project.tasks.push(projectTask);
+                })
+            );
 
             await project.save();
 
