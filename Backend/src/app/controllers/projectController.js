@@ -55,7 +55,41 @@ module.exports = {
     },
 
     async put(req, res) {
-        res.send({ ok: "Hello World", user: req.userId });
+        try {
+            const { title, description, tasks } = req.body;
+            const project = await Project.findByIdAndUpdate(
+                req.params.projectId,
+                {
+                    title,
+                    description,
+                    user: req.userId,
+                },
+                { new: true } // Para retornar o projeto atualizado na res
+            );
+
+            project.tasks = [];
+
+            await Task.remove({ project: project._id });
+
+            await Promise.all(
+                tasks.map(async (task) => {
+                    const projectTask = new Task({
+                        ...task,
+                        project: Project._id,
+                    });
+
+                    await projectTask.save();
+
+                    project.tasks.push(projectTask);
+                })
+            );
+
+            await project.save();
+
+            return res.send({ project });
+        } catch (err) {
+            return res.status(400).send({ error: "Could not update project" });
+        }
     },
 
     async delete(req, res) {
