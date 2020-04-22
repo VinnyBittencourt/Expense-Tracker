@@ -4,6 +4,7 @@ const authMiddleware = require("./app/middlewares/auth");
 
 const authController = require("./app/controllers/authController");
 const projectController = require("./app/controllers/projectController");
+const transactionsController = require("./app/controllers/transactionsController");
 
 const routes = express.Router();
 
@@ -19,5 +20,9 @@ routes.get("/projects/:projectId", authMiddleware, projectController.show);
 routes.post("/projects/", authMiddleware, projectController.create);
 routes.put("/projects/:projectId", authMiddleware, projectController.put);
 routes.delete("/projects/:projectId", authMiddleware, projectController.delete);
+
+routes.get("/transactions", transactionsController.index);
+routes.post("/transactions", transactionsController.create);
+routes.delete("/transactions/:id", transactionsController.delete);
 
 module.exports = routes;
