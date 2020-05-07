@@ -13,7 +13,7 @@ export default function login() {
                 <input type='text' placeholder='password' />
                 <Link className='back-link' to='/register'>
                     <FiLogIn size={14} color='#9c88ff'></FiLogIn>
-                    Não tenho cadastro
+                    Don't have an account? Register now.
                 </Link>
                 <button type='submit'>Log In</button>
             </form>

@@ -13,10 +13,10 @@ export default function register() {
                 <input type='text' placeholder='Your Email' />
                 <input type='text' placeholder='Your Password' />
                 <Link className='back-link' to='/'>
-                    Já tenho cadastro
+                    Already have an account
                     <FiLogOut size={14} color='#9c88ff'></FiLogOut>
                 </Link>
-                <button type='submit'>Cadastrar</button>
+                <button type='submit'>Register</button>
             </form>
         </Container>
     );
