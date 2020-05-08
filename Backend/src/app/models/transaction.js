@@ -11,6 +11,11 @@ const TransactionSchema = new mongoose.Schema(
             type: Number,
             required: [true, "Please add a positive or negative number"],
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            require: true,
+        },
     },
     {
         timestamps: true,

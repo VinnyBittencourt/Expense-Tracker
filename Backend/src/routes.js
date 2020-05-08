@@ -21,8 +21,16 @@ routes.post("/projects/", authMiddleware, projectController.create);
 routes.put("/projects/:projectId", authMiddleware, projectController.put);
 routes.delete("/projects/:projectId", authMiddleware, projectController.delete);
 
-routes.get("/transactions", transactionsController.index);
-routes.post("/transactions", transactionsController.create);
-routes.delete("/transactions/:id", transactionsController.delete);
+routes.get(
+    "/transactions/:userid",
+    authMiddleware,
+    transactionsController.index
+);
+routes.post("/transactions", authMiddleware, transactionsController.create);
+routes.delete(
+    "/transactions/:id",
+    authMiddleware,
+    transactionsController.delete
+);
 
 module.exports = routes;

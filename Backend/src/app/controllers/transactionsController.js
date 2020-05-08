@@ -1,12 +1,14 @@
 const Transaction = require("../models/transaction");
 
 module.exports = {
-    //@desc     Get all transactions
-    //@route    GET /transactions
+    //@desc     Get all transactions form a user
+    //@route    GET /transactions/:id
     //@access   JWT Private
     async index(req, res, next) {
         try {
-            const transactions = await Transaction.find();
+            const transactions = await Transaction.find({
+                user: req.params.userid,
+            });
             return res.status(200).json({
                 success: true,
                 count: transactions.length,
@@ -27,7 +29,11 @@ module.exports = {
         const { text, amount } = req.body;
 
         try {
-            const transaction = await Transaction.create(req.body);
+            const transaction = await Transaction.create({
+                text,
+                amount,
+                user: req.userId,
+            });
             return res.status(201).json({
                 success: true,
                 data: transaction,
