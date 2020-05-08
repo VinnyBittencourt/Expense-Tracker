@@ -7,6 +7,9 @@ export const AddTransaction = () => {
 
     const { addTransaction } = useContext(GlobalContext);
 
+    const JWT = localStorage.getItem("JWT");
+    const userId = localStorage.getItem("IdUser");
+
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -14,9 +17,10 @@ export const AddTransaction = () => {
             id: Math.floor(Math.random() * 1000000000),
             text,
             amount: +amount,
+            userId,
         };
 
-        addTransaction(newTransaction);
+        addTransaction(newTransaction, JWT);
     };
     return (
         <>

@@ -22,7 +22,7 @@ export default function Register() {
         };
 
         try {
-            const respon = await api.post("/auth/register", data);
+            await api.post("/auth/register", data);
             alert("Thanks for using the Expense Tracker service!");
 
             history.push("/");

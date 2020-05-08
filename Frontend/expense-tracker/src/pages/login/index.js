@@ -23,7 +23,7 @@ export default function Login() {
         try {
             const respon = await api.post("/auth/authenticate", data);
 
-            console.log(respon.data.user.name);
+            localStorage.setItem("JWT", respon.data.token);
             localStorage.setItem("nameUser", respon.data.user.name);
             localStorage.setItem("IdUser", respon.data.user._id);
 

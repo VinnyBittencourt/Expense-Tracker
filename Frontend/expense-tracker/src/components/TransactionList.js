@@ -5,10 +5,13 @@ import { Transaction } from "./Transaction";
 export const TransactionList = () => {
     const { transactions, getTransactions } = useContext(GlobalContext);
 
+    const JWT = localStorage.getItem("JWT");
+    const userId = localStorage.getItem("IdUser");
+
     console.log(transactions);
 
     useEffect(() => {
-        getTransactions();
+        getTransactions(JWT, userId);
         // eslint-sable-next-line react-hooks/exhaustive-deps
     }, []);
 
