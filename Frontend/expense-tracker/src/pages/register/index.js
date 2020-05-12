@@ -9,11 +9,28 @@ export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("Erro");
+    let [validName, setValidname] = useState(true);
 
     const history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
+
+        if (!name) {
+            await setValidname((validName = false));
+            await setError("Need at least 4");
+            return;
+        }
+
+        if (name) {
+            let haveNumber = name.replace(/[^0-9]/g, "");
+            if (haveNumber) {
+                await setValidname(false);
+                await setError("Must not have a number");
+                return;
+            }
+        }
 
         const data = {
             name,
@@ -21,33 +38,38 @@ export default function Register() {
             password,
         };
 
-        try {
-            await api.post("/auth/register", data);
-            alert("Thanks for using the Expense Tracker service!");
+        // try {
+        //     await api.post("/auth/register", data);
+        //     alert("Thanks for using the Expense Tracker service!");
 
-            history.push("/");
-        } catch (err) {
-            console.log(err);
-            alert("All fields are required!");
-        }
+        //     history.push("/");
+        // } catch (err) {
+        //     console.log(err);
+        //     alert("All fields are required!");
+        // }
     }
 
     return (
         <Container>
             <h1>Expense Tracker</h1>
             <form onSubmit={handleRegister}>
+                <label className={validName ? "erro" : "disp"}>{error}</label>
                 <input
                     type='text'
                     placeholder='Your Name'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+
+                <label className='erro erroEmail'>Erro</label>
                 <input
                     type='email'
                     placeholder='Your Email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+
+                <label className='erro erroPassword'>Erro</label>
                 <input
                     type='password'
                     placeholder='Your Password'

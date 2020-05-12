@@ -28,4 +28,24 @@ export const Container = styled.div`
         margin-left: 3px;
         margin-bottom: -3px;
     }
+
+    .erro {
+        display: none;
+        width: 100%;
+        text-align: start;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        color: red;
+        font-size: 13px;
+    }
+
+    .disp {
+        display: block;
+        width: 100%;
+        text-align: start;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        color: red;
+        font-size: 13px;
+    }
 `;
