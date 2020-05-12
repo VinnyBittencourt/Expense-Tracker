@@ -1,4 +1,5 @@
 const express = require("express");
+const { celebrate, Segments, Joi } = require("celebrate");
 
 const authMiddleware = require("./app/middlewares/auth");
 
@@ -10,8 +11,27 @@ const routes = express.Router();
 
 // routes.use(authMiddleware);
 
-routes.post("/auth/register", authController.create);
-routes.post("/auth/authenticate", authController.login);
+routes.post(
+    "/auth/register",
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            name: Joi.string().required().min(4),
+            email: Joi.string().email().required(),
+            password: Joi.string().required().min(4),
+        }),
+    }),
+    authController.create
+);
+routes.post(
+    "/auth/authenticate",
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            email: Joi.string().email().required(),
+            password: Joi.string().required().min(4),
+        }),
+    }),
+    authController.login
+);
 routes.post("/auth/forgot_password", authController.forgotPassword);
 routes.post("/auth/reset_password", authController.resetPassword);
 
@@ -26,7 +46,19 @@ routes.get(
     authMiddleware,
     transactionsController.index
 );
-routes.post("/transactions", authMiddleware, transactionsController.create);
+routes.post(
+    "/transactions",
+    authMiddleware,
+    celebrate({
+        [Segments.BODY]: Joi.object()
+            .keys({
+                text: Joi.string().required().min(1),
+                amount: Joi.number().required(),
+            })
+            .unknown(),
+    }),
+    transactionsController.create
+);
 routes.delete(
     "/transactions/:id",
     authMiddleware,
