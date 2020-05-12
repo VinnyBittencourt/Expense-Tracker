@@ -10,26 +10,41 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("Erro");
+    const [errorPass, setErrorpass] = useState("Erro");
     let [validName, setValidname] = useState(true);
+    let [validPassword, setValidpassword] = useState(true);
 
     const history = useHistory();
 
     async function handleRegister(e) {
         e.preventDefault();
+        await setValidname((validName = true));
+        await setValidname((validPassword = true));
 
-        if (!name) {
+        if (!name || name.length < 4) {
             await setValidname((validName = false));
-            await setError("Need at least 4");
+            console.log(validName);
+            await setError("The name field needs at least 4 characters");
             return;
         }
 
         if (name) {
             let haveNumber = name.replace(/[^0-9]/g, "");
             if (haveNumber) {
-                await setValidname(false);
-                await setError("Must not have a number");
+                await setValidname((validName = false));
+                console.log(validName);
+                await setError("The name field cannot have numbers");
                 return;
             }
+        }
+
+        if (!password || password.length < 4) {
+            await setValidpassword((validPassword = false));
+            console.log(validPassword);
+            await setErrorpass(
+                "The password field needs at least 4 characters"
+            );
+            return;
         }
 
         const data = {
@@ -61,7 +76,6 @@ export default function Register() {
                     onChange={(e) => setName(e.target.value)}
                 />
 
-                <label className='erro erroEmail'>Erro</label>
                 <input
                     type='email'
                     placeholder='Your Email'
@@ -69,7 +83,9 @@ export default function Register() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-                <label className='erro erroPassword'>Erro</label>
+                <label className={validPassword ? "erro" : "disp"}>
+                    {errorPass}
+                </label>
                 <input
                     type='password'
                     placeholder='Your Password'
