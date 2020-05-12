@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom"; //Link é uma outra forma de usar a tag 'a' porque a tag a faz com que a página faça o load inteiro na página
 import { FiLogOut } from "react-icons/fi";
+import swal from "sweetalert";
 
 import { Container } from "./style";
 import api from "../../services/api";
@@ -23,7 +24,6 @@ export default function Register() {
 
         if (!name || name.length < 4) {
             await setValidname((validName = false));
-            console.log(validName);
             await setError("The name field needs at least 4 characters");
             return;
         }
@@ -32,7 +32,6 @@ export default function Register() {
             let haveNumber = name.replace(/[^0-9]/g, "");
             if (haveNumber) {
                 await setValidname((validName = false));
-                console.log(validName);
                 await setError("The name field cannot have numbers");
                 return;
             }
@@ -40,7 +39,6 @@ export default function Register() {
 
         if (!password || password.length < 4) {
             await setValidpassword((validPassword = false));
-            console.log(validPassword);
             await setErrorpass(
                 "The password field needs at least 4 characters"
             );
@@ -53,15 +51,19 @@ export default function Register() {
             password,
         };
 
-        // try {
-        //     await api.post("/auth/register", data);
-        //     alert("Thanks for using the Expense Tracker service!");
+        try {
+            await api.post("/auth/register", data);
+            swal(
+                "Registration complete",
+                "Thanks for using the Expense Tracker service!",
+                "success"
+            );
 
-        //     history.push("/");
-        // } catch (err) {
-        //     console.log(err);
-        //     alert("All fields are required!");
-        // }
+            history.push("/");
+        } catch (err) {
+            console.log(err);
+            swal("Ops!", "Something went wrong", "error");
+        }
     }
 
     return (

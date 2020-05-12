@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom"; //Link é uma outra forma de usar a tag 'a' porque a tag a faz com que a página faça o load inteiro na página
 import { FiLogIn } from "react-icons/fi";
+import swal from "sweetalert";
 
 import { Container } from "./style";
 
@@ -30,7 +31,7 @@ export default function Login() {
             history.push("/tracker");
         } catch (err) {
             console.log(err);
-            alert("Something went wrong!");
+            swal("Ops!", "Invalid email or password!", "error");
         }
     }
     return (
@@ -38,7 +39,7 @@ export default function Login() {
             <h1>Expense Tracker</h1>
             <form onSubmit={handleLogin}>
                 <input
-                    type='text'
+                    type='email'
                     placeholder='Email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
