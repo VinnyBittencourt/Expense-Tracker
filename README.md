@@ -5,3 +5,4 @@ An Expense Tracker made for people who want to keep track of their expenses anyw
 - React;
 - Node;
 - MongoDB Atlas;
+- MVC;
